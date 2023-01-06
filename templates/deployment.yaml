@@ -71,8 +71,8 @@ spec:
             value: "{{ . }}"
         {{- end }}
         {{- range $index, $item :=.Values.app.envs }}
-          - name: {{ .item.name | quote }}
-            value: {{ .item.value | quote }}
+          - name: {{ $item.name | quote }}
+            value: {{ $item.value | quote }}
         {{- end }}
         ######### resources #########
         resources: {{ include "resources" . | nindent 10 }}
