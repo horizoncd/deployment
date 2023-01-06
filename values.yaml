@@ -1,35 +1,8 @@
 ## the params for app
 app:
-  home: /home/appops
-  health:
-    port:
-    expectedStartTime: 200
-    check:
-    status:
-    online:
-    offline:
-  params:
-    jvmExtra:
-    mainClassName:
-    xms: "512"
-    xmx: "512"
-    xdebugAddress:
   spec:
-    autoscale: none
     replicas: 1
     resource: x-small
-  strategy:
-    pauseType: all
-    stepsTotal: 1
-  advanced:
-    ingress:
-      enabled: false
-      annotations: {}
-
-  ## checkTime*checkPeriod is the livenessProbe check initialDelaySeconds
-  ## the app container will startup will check the memcached for checkTime every checkPeriod
-  checkTime: 6
-  checkPeriod: 5
   envs: []
 
 horizon:
@@ -41,30 +14,6 @@ env:
   environment: ""
   region:
   namespace:
-  baseRegistry:
-  ingressDomain:
-
-# some default config for health check
-health:
-  livenessProbe:
-    timeoutSeconds: 10
-    periodSeconds: 10
-    successThreshold: 1
-    failureThreshold: 3
-  readinessProbe:
-    initialDelaySeconds: 30
-    timeoutSeconds: 3
-    periodSeconds: 5
-    successThreshold: 1
-    failureThreshold: 2
-
-  online:
-    timeout: 30
-    sleep: 10
-  offline:
-    timeout: 5
-    sleep: 10
-    retry: 2
 
 # artifacts image
 image: ""
@@ -96,8 +45,6 @@ oversale:
   cpu:
     online: 30
     others: 40
-  memory:
-    delta: 256
 
 # affinity, Ref: https://kubernetes.io/zh/docs/concepts/scheduling-eviction/assign-pod-node/
 affinity:
@@ -108,7 +55,7 @@ affinity:
       podAffinityTerm:
         labelSelector:
           matchExpressions:
-          - key: cloudnative.music.netease.com/cluster
+          - key: horizoncd.github.io/cluster
             operator: In
             values:
             - "{{ .Values.horizon.cluster }}"
