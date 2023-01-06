@@ -1,0 +1,186 @@
+{
+  "type": "object",
+  "properties": {
+    "app": {
+      "title": "应用",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "type": "object",
+          "title": "规格",
+          "properties": {
+            {{- if .resourceType }}
+            {{- if eq .resourceType "cluster" }}
+            "replicas": {
+              "type": "integer",
+              "title": "副本数",
+              "default": 1,
+              "minimum": 0,
+              "maximum":
+              {{- .maxReplicas | default 30 }}
+            },
+            {{- end }}
+            {{- end }}
+           "resource": {
+              "type": "string",
+              "title": "规格",
+              "description": "应用上建议选择tiny或者small规格（测试环境集群自动继承，节省资源使用），线上集群可选大规格",
+              "default": "x-small",
+              "oneOf": [
+                {
+                  "enum": [
+                    "tiny"
+                  ],
+                  "title": "tiny(0.5C1G)"
+                },
+                {
+                  "enum": [
+                    "x-small"
+                  ],
+                  "title": "x-small(1C2G)"
+                },
+                {
+                  "enum": [
+                    "small"
+                  ],
+                  "title": "small(2C4G)"
+                },
+                {
+                  "enum": [
+                    "middle"
+                  ],
+                  "title": "middle(4C8G)"
+                }
+                {{- if .supportMoreSpecs -}}
+                {{- if contains "large" .supportMoreSpecs -}},
+                {
+                  "enum": [
+                    "large"
+                  ],
+                  "title": "large(8C16G)"
+                }
+                {{- end -}}
+                {{- if contains "flexible" .supportMoreSpecs -}},
+                {
+                  "enum": [
+                    "flexible"
+                  ],
+                  "title": "flexible"
+                }
+                {{- end -}}
+                {{- end -}}
+              ]
+            }
+          },
+          "dependencies": {
+            "resource": {
+              "oneOf": [
+                {
+                  "properties": {
+                    "resource": {
+                      "enum": [
+                        "flexible"
+                      ],
+                      "title": "flexible"
+                    },
+                    "cpu": {
+                      "type": "integer",
+                      "title": "cpu",
+                      "description": "单位：m，应用上建议选择500或者1000规格（测试环境集群自动继承，节省资源使用），线上集群可选大规格",
+                      "default": 500,
+                      "enum": [
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        6000,
+                        8000
+                      ]
+                    },
+                    "memory": {
+                      "type": "integer",
+                      "title": "memory",
+                      "description": "单位：MB，应用上建议选择1024或者2048规格（测试环境集群自动继承，节省资源使用），线上集群可选大规格",
+                      "default": 1024,
+                      "enum": [
+                        1024,
+                        2048,
+                        4096,
+                        6144,
+                        8192,
+                        10240,
+                        12288,
+                        14336,
+                        16384
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "resource": {
+                      "enum": [
+                        "tiny"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "resource": {
+                      "enum": [
+                        "x-small"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "resource": {
+                      "enum": [
+                        "small"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "resource": {
+                      "enum": [
+                        "middle"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "resource": {
+                      "enum": [
+                        "large"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "envs": {
+          "type": "array",
+          "title": "环境变量",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

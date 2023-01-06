@@ -1,0 +1,21 @@
+{
+    "ui:order": [
+        "app"
+    ],
+    "app":{
+        "ui:order":[
+            "spec",
+            "envs"
+        ],
+        "spec": {
+          "ui:order":[
+            "replicas",
+            "resource",
+            "cpu",
+            "memory",
+            "*"
+          ]
+        }
+    }
+}
+
