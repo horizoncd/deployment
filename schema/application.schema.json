@@ -165,6 +165,11 @@
             }
           }
         },
+        "startCommand": {
+          "type": "string",
+          "title": "启动命令",
+          "description": "启动命令，如：java -jar xxx.jar"
+        },
         "envs": {
           "type": "array",
           "title": "环境变量",

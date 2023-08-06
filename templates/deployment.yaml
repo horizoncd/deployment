@@ -40,6 +40,13 @@ spec:
       containers:
       - name: {{ .Values.horizon.cluster }}
         image: {{ .Values.image }}
+        {{- if .Values.app.startCommand }}
+        command:
+          - /bin/sh
+          - -c
+        args:
+          - "{{ .Values.app.startCommand }}"
+        {{- end }}
         ####### containerExtra #######
         {{- with .Values.containerExtra }}
         {{- toYaml . | nindent 8 }}

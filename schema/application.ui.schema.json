@@ -5,6 +5,7 @@
     "app":{
         "ui:order":[
             "spec",
+            "startCommand",
             "envs"
         ],
         "spec": {
