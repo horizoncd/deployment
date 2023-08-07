@@ -4,6 +4,7 @@ app:
     replicas: 1
     resource: x-small
   envs: []
+  startCommand: ""
 
 horizon:
   application:
